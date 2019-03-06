@@ -1,5 +1,5 @@
 #include"stdafx.h"
-#include"Message_Init.h"
+#include"Init_Message.h"
 #include<stdlib.h>
 
 #ifndef _Message_Init_CPP
