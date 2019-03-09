@@ -24,30 +24,18 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Init_Message.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Safe_Sequence_Produce.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Safe_Sequence_Sort.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="InitCls.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="银行家算法模拟.cpp">
+    <ClCompile Include="InitCls.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Init_Message.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Safe_Sequence_Produce.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Safe_Sequence_Sort.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

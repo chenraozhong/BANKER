@@ -9,5 +9,5 @@ int main()
 	my_AvaliableNumber.InitRandomOfMax();
 	my_AvaliableNumber.InitRandomOfAllocationAndTime();
 	system("pause");
-    return 0;
+	return 0;
 }
