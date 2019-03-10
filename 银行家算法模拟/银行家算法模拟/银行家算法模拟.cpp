@@ -16,6 +16,8 @@ int main()
 	my_AvaliableNumber.InitRandomOfMax();
 	my_AvaliableNumber.InitRandomOfAllocationAndTime();
 	*/
+	SqeCls ss;
+	ss.SqeCls_Messageinit();
 	system("pause");
 	return 0;
 }
