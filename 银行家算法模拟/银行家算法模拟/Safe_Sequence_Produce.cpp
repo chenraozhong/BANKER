@@ -62,6 +62,14 @@ void FileToVector(string file, vector<vector<int> > value) {
 	in.close();
 }
 
+SqeCls::SqeCls() {
+	m_SafeAndScore.open("SafeAndScore.txt");
+}
+
+SqeCls::~SqeCls() {
+	m_SafeAndScore.close();
+}
+
 void SqeCls::SqeCls_Sourseinit() {
 	ifstream in;
 	string myfile = "Available.txt";
@@ -193,24 +201,56 @@ bool SqeCls::SqeCls_Client_Is_Safe(int num, vector<map<int, int> > release, vect
 
 int SqeCls::SqeCls_FindClient(vector<int> safe, vector<int> pendsearch, vector<map<int, int> > release, vector<int> remain) {
 	for (int i = 0; i < pendsearch.size(); i++) {
-		if (SqeCls_Client_Is_Safe(pendsearch[i], release, remain)) {
-			safe.push_back(pendsearch[i]);
-			int myvalue = pendsearch[i];
-			Eraser(pendsearch, pendsearch[i]);
-			return myvalue;
-		}
+		if (SqeCls_Client_Is_Safe(pendsearch[i], release, remain))  return pendsearch[i];
 	}
 	return -1;
+}
 
+int SqeCls::SqeCls_CacluTotalReleaseTime(int currtime,vector<map<int,int> > release ) {
+	int mymaxtime = 0;
+	for (int i = 0; i < release.size(); i++) {
+		map<int, int>::iterator myitem = release[i].begin();
+		for (; myitem != release[i].end(); myitem++) {
+			if (mymaxtime < myitem->first) mymaxtime = myitem->first;
+		}
+	}//end of for
+	return currtime + mymaxtime;
+}
+
+double SqeCls::SqeCls_CacluSourceRation(vector<int> remain) {
+	double myratio = 0.0;
+	for (int i = 0; i < remain.size(); i++) {
+		myratio += (double(remain[i]) /double( m_Source[i]));
+	}
+	return myratio;
+}
+
+double SqeCls::SqeCls_CacluScore(int totalApplytime, int totalReleaseTime, double sourceration) {
+	double myscore = double(_SystemTime)/double(totalApplytime)*0.6+double(_SystemTime)/double(totalReleaseTime)*0.4+sourceration;//权值还有待商榷
+	return myscore;
+}
+
+void SqeCls::SqeCls_Sequence_Is_Safe(vector<int> safe,int currtime,vector<map<int,int> > release,vector<int> remain) {
+	int mytotalApplyTime = currtime;
+	int mytotalReleaseTime = SqeCls_CacluTotalReleaseTime(currtime, release);
+	double mySourceRation = SqeCls_CacluSourceRation(remain);
+	double myScore = SqeCls_CacluScore(mytotalApplyTime, mytotalReleaseTime, mySourceRation);
+	for (int i = 0; i < safe.size(); i++)
+		m_SafeAndScore << safe[i] << " ";
+	m_SafeAndScore << endl;
+	m_SafeAndScore << myScore;
+	m_SafeAndScore << endl;
 }
 
 void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch) {
 	if (_SystemTime <= _ThreholdValue) {
 		int myclientnum = 0;
+		safe.push_back(num);
+		Eraser(pendsearch, num);
 		while (myclientnum != -1) {
 			int myclientnum = SqeCls_FindClient(safe, pendsearch, release, remain);
 			if (myclientnum == -1) {
-				cout << "还未处理" << endl;
+				if (safe.size() == m_clientnum) SqeCls_Sequence_Is_Safe(safe,currtime,release,remain);
 			}
 			else {
 				int myapplytime = SqeCls_CacluApplyTime(num, currtime, remain, release);

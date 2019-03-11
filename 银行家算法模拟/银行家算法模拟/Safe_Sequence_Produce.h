@@ -15,6 +15,7 @@ int _ThreholdValue = 500;
 
 class SqeCls {
 private:
+	ofstream m_SafeAndScore;
 	int m_sourcenum;
 	int m_clientnum;
 	vector<int> m_Source;
@@ -41,6 +42,8 @@ private:
 	void SqeCls_UpdateRemain(vector<int> remain,vector<map<int,int> > release,int currtime);
 	void SqeCls_UpdateRelease(vector<map<int, int> > release, int num, int currtime);
 public:
+	SqeCls();
+	~SqeCls();
 	void SqeCls_Messageinit();
 	int SqeCls_CacluApplyTime(int num,int currtime,vector<int> remain,vector<map<int,int> > release);
 	void SqeCls_UpdateMessage(vector<int> remain,vector<map<int,int> > release,int &currtime,int applytime,int num);
@@ -48,6 +51,10 @@ public:
 	bool SqeCls_Client_Is_Safe(int num, vector<map<int, int> > release, vector<int> remain);
 	void SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch);
 	void SqeCls_Run(int num=1);
+	void SqeCls_Sequence_Is_Safe(vector<int> safe,int currtime, vector<map<int, int> > release, vector<int> remain);
+	int SqeCls_CacluTotalReleaseTime(int currtime,vector<map<int,int> > release);
+	double SqeCls_CacluSourceRation(vector<int> remain);
+	double SqeCls_CacluScore(int totalApplytime,int totalReleaseTime,double sourceration);
 };
 
 #endif

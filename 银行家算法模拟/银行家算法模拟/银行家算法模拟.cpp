@@ -45,6 +45,7 @@ int main()
 	for (; myitem != map1.end(); myitem++)
 		cout << myitem->second;
 		*/
+	/*
 	vector<int> my;
 	my.push_back(1);
 	my.push_back(2);
@@ -56,6 +57,9 @@ int main()
 	my.erase(item);
 	for (int i = 0; i < my.size(); i++)
 		cout << my[i] << endl;
+	*/
+	double aa = double(3) / double(5);
+	cout << aa;
 	system("pause");
 	return 0;
 }
