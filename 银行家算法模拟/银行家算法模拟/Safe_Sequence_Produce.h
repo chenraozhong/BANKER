@@ -36,12 +36,12 @@ private:
 	void SqeCls_MAXRequestinit();
 	void SqeCls_Releaseinit();
 	void SqeCls_UpdateRemain(vector<int> remain,int currtime);
+	void SqeCls_UpdateRelease(vector<map<int, int> > release, int num, int currtime);
 public:
 	void SqeCls_Messageinit();
 	int SqeCls_CacluApplyTime(int num,int currtime,vector<int> remain);
 	void SqeCls_UpdateMessage(vector<int> remain,vector<map<int,int> > release,int &currtime,int applytime,int num);
-	void SqeCls_UpdateRelease(vector<map<int, int> > release, int num,int currtime);
-
+	int SqeCls_FindClient()
 };
 
 #endif
