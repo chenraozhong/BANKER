@@ -8,6 +8,15 @@ using namespace std;
 #ifndef _SAFE_SEQUENCE_PRODUCE_CPP
 #define _SAFE_SEQUENCE_PRODUCE_CPP
 
+void Eraser(vector<int> sequence, int value) {
+	vector<int>::iterator myitem = sequence.begin();
+	for (; myitem != sequence.end(); myitem++) {
+		if (*myitem == value) break;
+	}
+	if (myitem != sequence.end()) cerr << "队列中无此数值，出错";
+	sequence.erase(myitem);
+}
+
 int StrToNum(string str) {
 	stringstream ss(str);
 	int myvalue = 0;
@@ -113,19 +122,22 @@ void SqeCls::SqeCls_Messageinit() {
 	SqeCls_MAXRequestinit();
 	SqeCls_Requestinit();
 	SqeCls_Releaseinit();
+	m_clientnum = m_Allocation.size();
+	m_sourcenum = m_Source.size();
 }
 
-void SqeCls::SqeCls_UpdateRemain(vector<int> remain,int currtime) {
+void SqeCls::SqeCls_UpdateRemain(vector<int> remain,vector<map<int,int> > release,int currtime) {
 	for (int i = 0; i < remain.size(); i++) {
-		map<int, int>::iterator myitem = m_Release[i].find(currtime);
-		if (myitem == m_Release[i].end()) continue;
+		map<int, int>::iterator myitem = release[i].find(currtime);
+		if (myitem == release[i].end()) continue;
 		else {
-			remain[i] += m_Release[i][currtime];
+			remain[i] += release[i][currtime];
+			release[i].erase(currtime);
 		}
 	}
 }
 
-int SqeCls::SqeCls_CacluApplyTime(int num,int currtime,vector<int> Remain) {
+int SqeCls::SqeCls_CacluApplyTime(int num,int currtime,vector<int> Remain,vector<map<int,int> > release) {
 	vector<int> myremain = Remain;
 	int mycount = 0;//记录已经生成的资源种类数
 	vector<int> myAllocation;
@@ -142,7 +154,7 @@ int SqeCls::SqeCls_CacluApplyTime(int num,int currtime,vector<int> Remain) {
 			}
 		}//end of for
 		currtime++;
-		SqeCls_UpdateRemain(myremain, currtime);
+		SqeCls_UpdateRemain(myremain,release, currtime);
 	}//end of while
 	return currtime;
 }
@@ -159,9 +171,73 @@ void SqeCls::SqeCls_UpdateRelease(vector<map<int, int> > release, int num,int cu
 
 void SqeCls::SqeCls_UpdateMessage(vector<int> remain, vector<map<int, int> > release, int &currtime, int applytime, int num) {
 	_SystemTime += (applytime - currtime);
-	currtime += applytime;
-	SqeCls_UpdateRemain(remain, currtime);
-	SqeCls_UpdateRelease(release, num, currtime);
+	int mycurrtime = currtime + applytime;
+	while (currtime <= applytime) {
+		currtime ++;
+		SqeCls_UpdateRemain(remain, release, currtime);
+		SqeCls_UpdateRelease(release, num, currtime);
+	}
+}
+
+bool SqeCls::SqeCls_Client_Is_Safe(int num, vector<map<int, int> > release, vector<int> remain) {
+	vector<int> myremain = remain;
+	for (int i = 0; i < remain.size(); i++) {
+		map<int, int>::iterator myitem = release[i].begin();
+		remain[i] += myitem->second;
+	}
+	for (int i = 0; i < m_Request[num].size(); i++) {
+		if (m_Request[num][i] > myremain[i]) return false;
+	}
+	return true;
+}
+
+int SqeCls::SqeCls_FindClient(vector<int> safe, vector<int> pendsearch, vector<map<int, int> > release, vector<int> remain) {
+	for (int i = 0; i < pendsearch.size(); i++) {
+		if (SqeCls_Client_Is_Safe(pendsearch[i], release, remain)) {
+			safe.push_back(pendsearch[i]);
+			int myvalue = pendsearch[i];
+			Eraser(pendsearch, pendsearch[i]);
+			return myvalue;
+		}
+	}
+	return -1;
+
+}
+
+void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch) {
+	if (_SystemTime <= _ThreholdValue) {
+		int myclientnum = 0;
+		while (myclientnum != -1) {
+			int myclientnum = SqeCls_FindClient(safe, pendsearch, release, remain);
+			if (myclientnum == -1) {
+				cout << "还未处理" << endl;
+			}
+			else {
+				int myapplytime = SqeCls_CacluApplyTime(num, currtime, remain, release);
+				int mycurrtime = currtime;
+				vector<int> myremain = remain;
+				vector<map<int, int> > myrelease = release;
+				vector<int> mysafe = safe;
+				vector<int> mypendsearch = pendsearch;
+				SqeCls_UpdateMessage(myremain, myrelease, mycurrtime, myapplytime, num);
+				SqeCls_Allocation(num, currtime, myrelease, myremain, mysafe, mypendsearch);
+			}
+		}//end of while
+	}
+}
+
+void SqeCls::SqeCls_Run(int num) {
+	int mycurrtime = 0;
+	vector<int> myremain = m_Remain;
+	vector<map<int, int> > myrelease=m_Release;
+	vector<int> mysafe;
+	vector<int> mypendsearch;
+	for (int i = 0; i < m_clientnum; i++) mypendsearch.push_back(i);
+	mysafe.push_back(num);
+	Eraser(mypendsearch, num);
+	int myapplytime = SqeCls_CacluApplyTime(num, mycurrtime, myremain, myrelease);
+	SqeCls_UpdateMessage(myremain, myrelease, mycurrtime, myapplytime, num);
+	SqeCls_Allocation(num, mycurrtime, myrelease, myremain, mysafe, mypendsearch);
 }
 
 #endif // !_SAFE_SEQUENCE_PRODUCE_CPP

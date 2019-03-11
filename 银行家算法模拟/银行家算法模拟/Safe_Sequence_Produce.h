@@ -11,9 +11,12 @@ using namespace std;
 #define _SAFE_SEQUENCE_PRODECE_H
 
 int _SystemTime = 0;
+int _ThreholdValue = 500;
 
 class SqeCls {
 private:
+	int m_sourcenum;
+	int m_clientnum;
 	vector<int> m_Source;
 	vector<int> m_Remain;
 	vector<vector<int> > m_Allocation;
@@ -35,13 +38,16 @@ private:
 	void SqeCls_Allocationinit();
 	void SqeCls_MAXRequestinit();
 	void SqeCls_Releaseinit();
-	void SqeCls_UpdateRemain(vector<int> remain,int currtime);
+	void SqeCls_UpdateRemain(vector<int> remain,vector<map<int,int> > release,int currtime);
 	void SqeCls_UpdateRelease(vector<map<int, int> > release, int num, int currtime);
 public:
 	void SqeCls_Messageinit();
-	int SqeCls_CacluApplyTime(int num,int currtime,vector<int> remain);
+	int SqeCls_CacluApplyTime(int num,int currtime,vector<int> remain,vector<map<int,int> > release);
 	void SqeCls_UpdateMessage(vector<int> remain,vector<map<int,int> > release,int &currtime,int applytime,int num);
-	int SqeCls_FindClient()
+	int SqeCls_FindClient(vector<int> safe, vector<int> pendsearch, vector<map<int, int> > release, vector<int> remain);
+	bool SqeCls_Client_Is_Safe(int num, vector<map<int, int> > release, vector<int> remain);
+	void SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch);
+	void SqeCls_Run(int num=1);
 };
 
 #endif
