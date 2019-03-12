@@ -117,4 +117,3 @@ void InitCls::InitRandomOfTime() {
 		m_Time << endl;
 	}
 	m_Time.close();
-}
