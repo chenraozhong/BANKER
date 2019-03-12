@@ -1,4 +1,5 @@
 #pragma once
+
 #include "stdafx.h"
 #ifndef _INITCLS_H
 #define _INTTCLS_H

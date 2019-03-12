@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<sstream>
 #include<string>
+
 void Sort_Sequence_SortCls::ReadOfSafeAndWeight() {
 	int i = 0;
 	string my_txtline;
