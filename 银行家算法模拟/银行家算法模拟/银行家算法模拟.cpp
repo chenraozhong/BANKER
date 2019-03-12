@@ -2,14 +2,23 @@
 //
 
 #include "stdafx.h"
-#include"Init_Message.h"
-#include<iostream>
-using namespace std;
+#include "Init_Message.h"
+#include "Safe_Sequence_Sort.h"
 
 int main()
 {
-	InitCls init;
-	init.InitSourse();
-    return 0;
+	InitCls my_AvaliableNumber(4, 4);
+	my_AvaliableNumber.InitRandomOfAvailable();
+	my_AvaliableNumber.InitRandomOfMax();
+	my_AvaliableNumber.InitRandomOfAllocation();
+	my_AvaliableNumber.InitRandomOfTime();
+
+	Sort_Sequence_SortCls my_SafeAndWeight;
+	my_SafeAndWeight.ReadOfSafeAndWeight();
+	my_SafeAndWeight.SortOfWeight();
+	my_SafeAndWeight.WriteOfSafeAndWeight();
+
+	system("pause");
+	return 0;
 }
 

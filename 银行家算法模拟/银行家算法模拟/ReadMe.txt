@@ -28,3 +28,33 @@ StdAfx.h, StdAfx.cpp
 应用程序向导使用“TODO:”注释来指示应添加或自定义的源代码部分。
 
 /////////////////////////////////////////////////////////////////////////////
+
+排序模块：
+	思想：通过 vector<pair<string,int> > 来实现安全序列和加权数的链接，再通过<algorithm>里的sort()函数进行加权数的排序。
+		输入：原始文本的内容
+		输出：排序好的数据输出到文本中
+
+	头文件：
+	Safe_Sequence_Sort.h
+		在其中定义了对加权数排序的类，类中包括三个公有成员变量和三个私有变量。
+		对公有成员函数的解释：		
+			void ReadOfSafeAndWeight();//读取安全序列和加权数
+			void SortOfWeight();//加权数的排序
+			void WriteOfSafeAndWeight();//将安全序列和排序后的加权数写入文档
+		对私有变量的解释：
+			vector<pair<string, int> > m_SafeAndWeight;//存储安全序列和加权数
+			ifstream m_ReadSafeSequencetxt;//原始安全序列和加权数的读取
+			ofstream m_WriteSafeSequence;//排序后的安全序列和加权数
+	类的实现文件：
+	Safe_Sequence_Sort.cpp
+		在其中进行头文件 Safe_Sequence_Sort.h 内的类成员函数的实现，也定义了一个不属于类的成员函数。
+		不属于类的函数：
+			bool cmp(const pair<string, int>& a1, const pair<string, int>& a2);//对其中的数据按照降序排序
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+			
