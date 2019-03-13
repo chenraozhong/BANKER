@@ -25,7 +25,6 @@ private:
 	vector<vector<int> > m_Request;
 	vector<vector<int> > m_Duration;
 
-	vector<vector<int> > m_Apply;
 	/*
 	vector<map<int, string> > m_Release: string由用户编码+时间点构成。
 	例如：m_Release[2]=<5,1>; 表明2号资源在第5时刻释放，释放量为1
@@ -41,6 +40,8 @@ private:
 	void SqeCls_Releaseinit();
 	void SqeCls_UpdateRemain(vector<int> remain,vector<map<int,int> > release,int currtime);
 	void SqeCls_UpdateRelease(vector<map<int, int> > release, int num, int currtime);
+	int SqeCls_CacluTotalReleaseTime(int currtime, vector<map<int, int> > release);
+	double SqeCls_CacluSourceRation(vector<int> remain);
 public:
 	SqeCls();
 	~SqeCls();
@@ -50,11 +51,9 @@ public:
 	int SqeCls_FindClient(vector<int> safe, vector<int> pendsearch, vector<map<int, int> > release, vector<int> remain);
 	bool SqeCls_Client_Is_Safe(int num, vector<map<int, int> > release, vector<int> remain);
 	void SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch);
+	void SqeCls_CacluScore(vector<int> safe,int currtime, vector<map<int, int> > release, vector<int> remain);
+	double SqeCls_Cacluate(int totalApplytime,int totalReleaseTime,double sourceration);
 	void SqeCls_Run(int num=1);
-	void SqeCls_Sequence_Is_Safe(vector<int> safe,int currtime, vector<map<int, int> > release, vector<int> remain);
-	int SqeCls_CacluTotalReleaseTime(int currtime,vector<map<int,int> > release);
-	double SqeCls_CacluSourceRation(vector<int> remain);
-	double SqeCls_CacluScore(int totalApplytime,int totalReleaseTime,double sourceration);
 };
 
 #endif
