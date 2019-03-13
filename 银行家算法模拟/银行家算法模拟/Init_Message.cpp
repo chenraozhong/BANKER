@@ -25,7 +25,7 @@ void InitCls::InitRandomOfAvailable() {
 		if (i < m_resource - 1) {   //最后一个不加入空格符
 			m_Available << " ";
 		}
-	}
+	}//for (int i = 0; i < m_resource; i++)
 	m_Available.close();
 }
 void InitCls::InitRandomOfMax() {
@@ -41,8 +41,8 @@ void InitCls::InitRandomOfMax() {
 		stringstream s(c);
 		while (s >> x) {
 			my_AvailableFinally.push_back(x);
-		}
-	}
+		}//while (s >> x)
+	}//while (getline(my_readofAvailable, c))
 	my_readofAvailable.close();
 	m_Max.open("max.txt");
 	if (!m_Max.is_open()) {
@@ -56,9 +56,9 @@ void InitCls::InitRandomOfMax() {
 			if (j < m_resource - 1) {
 				m_Max << " ";
 			}
-		}
+		}//for (int j = 0; j < m_resource; j++)
 		m_Max << endl;
-	}
+	}//for (int i = 0; i < m_client; i++)
 	m_Max.close();
 }
 void InitCls::InitRandomOfAllocation() {
@@ -74,8 +74,8 @@ void InitCls::InitRandomOfAllocation() {
 		stringstream s1(c1);
 		while (s1 >> x1) {
 			my_MaxFinally.push_back(x1);
-		}
-	}
+		}//while (s1 >> x1)
+	}//while (getline(my_ReadOfMax, c1))
 	my_ReadOfMax.close();
 	m_Allocation.open("allocation.txt");
 	srand((unsigned)time(NULL));
@@ -94,9 +94,9 @@ void InitCls::InitRandomOfAllocation() {
 			if (j < m_resource - 1) {
 				m_Allocation << " ";
 			}
-		}
+		}//for (int j = 0; j < m_resource; j++)
 		m_Allocation << endl;
-	}
+	}//for (int i = 0; i < m_client; i++)
 	m_Allocation.close();
 }
 void InitCls::InitRandomOfTime() {
@@ -114,8 +114,8 @@ void InitCls::InitRandomOfTime() {
 			if (j < m_resource - 1) {
 				m_Time << " ";
 			}
-		}
+		}//for (j = 0; j < m_resource; j++)
 		m_Time << endl;
-	}
+	}//for (i = 0; i < m_client; i++) 
 	m_Time.close();
 }

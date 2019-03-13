@@ -22,16 +22,16 @@ void Sort_Sequence_SortCls::ReadOfSafeAndWeight() {
 		while (ch >> my_chartonum) {
 			if (i % 2 != 0)
 				my_WeightNumSave.push_back(my_chartonum);
-		}
+		}//while (ch >> my_chartonum)
 		i++;
-	}
+	}//while (getline(m_ReadSafeSequencetxt, my_txtline)) 
 	m_ReadSafeSequencetxt.close();
 	if (my_SafeSequenceSave.size() != my_WeightNumSave.size())//两个数组长度一定相等
 		cout << "input error!" << endl;
 	else {
 		for (int i = 0; i < my_WeightNumSave.size(); i++) {
 			m_SafeAndWeight.push_back(make_pair(my_SafeSequenceSave[i], my_WeightNumSave[i]));
-		}
+		}//for (int i = 0; i < my_WeightNumSave.size(); i++)
 	}
 }
 bool cmp(const pair<string, int>& a1, const pair<string, int>& a2) {
@@ -50,6 +50,6 @@ void Sort_Sequence_SortCls::WriteOfSafeAndWeight() {
 		m_WriteSafeSequence << m_SafeAndWeight[i].first << endl << m_SafeAndWeight[i].second ;
 		if (i < m_SafeAndWeight.size() - 1)
 			m_WriteSafeSequence << endl;
-	}
+	}//for (int i = 0; i < m_SafeAndWeight.size(); i++)
 	m_WriteSafeSequence.close();
 }
