@@ -15,7 +15,7 @@ InitCls::InitCls(int m, int n) {
 void InitCls::InitRandomOfAvailable() {
 	int my_number;
 	srand((unsigned)time(NULL));
-	m_Available.open("Available.txt");
+	m_Available.open("available.txt");
 	if (!m_Available.is_open()) {
 		cerr << "The m_Available don't open! error1!" << endl;
 	}
@@ -32,7 +32,7 @@ void InitCls::InitRandomOfMax() {
 	string c;
 	int my_number1;
 	vector<int> my_AvailableFinally;//存储提取的数字
-	ifstream my_readofAvailable("Available.txt");
+	ifstream my_readofAvailable("available.txt");
 	if (!my_readofAvailable.is_open()) {
 		cerr << "The m_Available don't open! error2!" << endl;
 	}
@@ -44,9 +44,9 @@ void InitCls::InitRandomOfMax() {
 		}
 	}
 	my_readofAvailable.close();
-	m_Max.open("Max.txt");
+	m_Max.open("max.txt");
 	if (!m_Max.is_open()) {
-		cerr << "The Max don't open! error3！" << endl;
+		cerr << "The max don't open! error3！" << endl;
 	}
 	srand((unsigned)time(NULL));
 	for (int i = 0; i < m_client; i++) {
@@ -65,9 +65,9 @@ void InitCls::InitRandomOfAllocation() {
 	string c1;
 	int my_number2, my_time;
 	vector<int> my_MaxFinally;//存储其中的数字
-	ifstream my_ReadOfMax("Max.txt");
+	ifstream my_ReadOfMax("max.txt");
 	if (!my_ReadOfMax.is_open()) {
-		cerr << "The Max don't open! error4 !" << endl;
+		cerr << "The max don't open! error4 !" << endl;
 	}
 	while (getline(my_ReadOfMax, c1)) {//进行其中数字的提取
 		int x1;
@@ -77,7 +77,7 @@ void InitCls::InitRandomOfAllocation() {
 		}
 	}
 	my_ReadOfMax.close();
-	m_Allocation.open("Allocation.txt");
+	m_Allocation.open("allocation.txt");
 	srand((unsigned)time(NULL));
 	if (!m_Allocation.is_open()) {
 		cerr << "The Allocation don't open! error5 ! " << endl;
@@ -102,9 +102,9 @@ void InitCls::InitRandomOfAllocation() {
 void InitCls::InitRandomOfTime() {
 	int i, j;
 	int my_numberoftime;
-	m_Time.open("Time.txt");
+	m_Time.open("duration.txt");
 	if (!m_Time.is_open()) {
-		cerr << "The time doon't open! error6 ! " << endl;
+		cerr << "The duration doon't open! error6 ! " << endl;
 	}
 	srand((unsigned)time(NULL));
 	for (i = 0; i < m_client; i++) {
