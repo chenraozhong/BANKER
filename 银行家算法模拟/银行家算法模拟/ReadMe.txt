@@ -48,7 +48,8 @@ StdAfx.h, StdAfx.cpp
 			m_resource;//资源数
 			m_Available;//存储随机生成的系统资源量
 			m_Max;//存储客户最大资源量
-			m_AllocationAndTime;//存储客户已占资源量以及时间占有量
+			m_Allocation;//存储客户已占资源量
+			m_Time;//时间占有量
 
 添加的源文件：
 	1.InitCls.cpp
@@ -88,8 +89,27 @@ StdAfx.h, StdAfx.cpp
 		在其中定义了对加权数排序的类，类中包括三个公有成员变量和三个私有变量。
 		对公有成员函数的解释：		
 			void ReadOfSafeAndWeight();//读取安全序列和加权数
+				初始安全序列以及加权数值在文本中的格式为：
+				1 2 3 4
+				67
+				2 3 1 4
+				87
+				4 3 1 2
+				65
+				3 2 1 4
+				89
 			void SortOfWeight();//加权数的排序
+				里面用sort()函数进行排序，并可以在自己设置排序方式。
 			void WriteOfSafeAndWeight();//将安全序列和排序后的加权数写入文档
+				排序好的安全序列以及加权数的排列方式为：
+				4 3 1 2
+				65
+				1 2 3 4
+				67
+				2 3 1 4
+				87
+				3 2 1 4
+				89
 		对私有变量的解释：
 			vector<pair<string, int> > m_SafeAndWeight;//存储安全序列和加权数
 			ifstream m_ReadSafeSequencetxt;//原始安全序列和加权数的读取
