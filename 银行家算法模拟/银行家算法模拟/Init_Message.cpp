@@ -15,7 +15,7 @@ InitCls::InitCls(int m, int n) {
 void InitCls::InitRandomOfAvailable() {
 	int my_number;
 	srand((unsigned)time(NULL));
-	m_Available.open("available.txt");
+	m_Available.open("Available.txt");
 	if (!m_Available.is_open()) {
 		cerr << "The m_Available don't open! error1!" << endl;
 	}
@@ -32,7 +32,8 @@ void InitCls::InitRandomOfMax() {
 	string c;
 	int my_number1;
 	vector<int> my_AvailableFinally;//存储提取的数字
-	ifstream my_readofAvailable("available.txt");
+
+	ifstream my_readofAvailable("Available.txt");
 	if (!my_readofAvailable.is_open()) {
 		cerr << "The m_Available don't open! error2!" << endl;
 	}
@@ -44,7 +45,8 @@ void InitCls::InitRandomOfMax() {
 		}//while (s >> x)
 	}//while (getline(my_readofAvailable, c))
 	my_readofAvailable.close();
-	m_Max.open("max.txt");
+
+	m_Max.open("Max.txt");
 	if (!m_Max.is_open()) {
 		cerr << "The max don't open! error3！" << endl;
 	}
@@ -64,8 +66,10 @@ void InitCls::InitRandomOfMax() {
 void InitCls::InitRandomOfAllocation() {
 	string c1;
 	int my_number2, my_time;
-	vector<int> my_MaxFinally;//存储其中的数字
-	ifstream my_ReadOfMax("max.txt");
+	vector<int> my_MaxFinally;//存储Max其中的数字
+	vector<int> my_AvailableFina;//存储系统资源量
+
+	ifstream my_ReadOfMax("Max.txt");
 	if (!my_ReadOfMax.is_open()) {
 		cerr << "The max don't open! error4 !" << endl;
 	}
@@ -77,7 +81,21 @@ void InitCls::InitRandomOfAllocation() {
 		}//while (s1 >> x1)
 	}//while (getline(my_ReadOfMax, c1))
 	my_ReadOfMax.close();
-	m_Allocation.open("allocation.txt");
+
+	ifstream my_ReadOfAvailable("Available.txt");
+	if (!my_ReadOfAvailable.is_open()) {
+		cerr << "The avilable don't open! error4 !" << endl;
+	}
+	while (getline(my_ReadOfAvailable, c1)) {//进行其中数字的提取
+		int x2;
+		stringstream s1(c1);
+		while (s1 >> x2) {
+			my_AvailableFina.push_back(x2);
+		}//while (s1 >> x1)
+	}//while (getline(my_ReadOfMax, c1))
+	my_ReadOfAvailable.close();
+
+	m_Allocation.open("Allocation.txt");
 	srand((unsigned)time(NULL));
 	if (!m_Allocation.is_open()) {
 		cerr << "The Allocation don't open! error5 ! " << endl;
@@ -88,7 +106,10 @@ void InitCls::InitRandomOfAllocation() {
 				my_number2 = 0;
 			}
 			else {
-				my_number2 = rand() % (my_MaxFinally[i * m_resource + j] / m_client + 1);
+				my_number2 = rand() % (my_MaxFinally[i * m_resource + j]);
+				while (my_number2 > (my_AvailableFina[j] / 4)) {
+					my_number2 = rand() % (my_MaxFinally[i * m_resource + j]);
+				}
 			}
 			m_Allocation << my_number2;
 			if (j < m_resource - 1) {
@@ -102,7 +123,8 @@ void InitCls::InitRandomOfAllocation() {
 void InitCls::InitRandomOfTime() {
 	int i, j;
 	int my_numberoftime;
-	m_Time.open("duration.txt");
+
+	m_Time.open("Duration.txt");
 	if (!m_Time.is_open()) {
 		cerr << "The duration doon't open! error6 ! " << endl;
 	}

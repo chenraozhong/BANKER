@@ -3,10 +3,19 @@
 #include "stdafx.h"
 #include "Init_Message.h"
 #include "Safe_Sequence_Sort.h"
+#include<iostream>
+using namespace std;
 
 int main()
 {
-	InitCls my_AvaliableNumber(4, 4);
+	int m, n;
+	cout << "input client is : ";
+	cin >> m;
+	cout << "input resource is : " ;
+	cin >> n;
+	cout << "input end!" << endl;
+
+	InitCls my_AvaliableNumber(m, n);
 	my_AvaliableNumber.InitRandomOfAvailable();
 	my_AvaliableNumber.InitRandomOfMax();
 	my_AvaliableNumber.InitRandomOfAllocation();
