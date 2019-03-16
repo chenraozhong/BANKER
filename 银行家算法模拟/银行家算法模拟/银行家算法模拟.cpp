@@ -12,7 +12,7 @@ using namespace std;
 
 int main()
 {
-	InitCls myInit(3, 4);
+	InitCls myInit(10, 9);
 	myInit.Init();
 	SqeCls mySafePro;
 	mySafePro.SqeCls_Run();

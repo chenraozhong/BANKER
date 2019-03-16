@@ -24,6 +24,18 @@ void Eraser(vector<int> &sequence, int value) {
 	else sequence.erase(myitem);
 }
 
+void Push_Back(vector<int> &sequence, int value) {
+	vector<int>::iterator myitem = sequence.begin();
+	for (; myitem != sequence.end(); myitem++) {
+		if (*myitem == value) break;
+	}
+	if (myitem != sequence.end()) {
+		cerr << "队列已存在数值，出错";
+		exit(1);
+	}
+	else sequence.push_back(value);
+}
+
 int StrToNum(string str) {
 	stringstream ss(str);
 	int myvalue = 0;
@@ -280,7 +292,7 @@ void SqeCls::SqeCls_CacluScore(vector<int> safe,int currtime,vector<map<int,int>
 void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch) {
 	if (_SystemTime <= _ThreholdValue) {
 		int myclientnum = 0;
-		safe.push_back(num);
+		Push_Back(safe, num);
 		//Eraser(pendsearch, num);
 		while (myclientnum != -1) {
 			myclientnum = SqeCls_FindClient(safe, pendsearch, release, remain);
@@ -288,7 +300,7 @@ void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > rel
 				if (safe.size() == m_clientnum)//表示该序列是安全序列
 					SqeCls_CacluScore(safe,currtime,release,remain);//end of if
 				else {
-					cout << "该学列不是安全序列" << endl;
+					cout << "该序列不是安全序列" << endl;
 				}
 			}
 			else {
@@ -320,7 +332,7 @@ void SqeCls::SqeCls_Run() {
 		exit(1);
 	}
 	//mysafe.push_back(num);
-	//Eraser(mypendsearch, num);
+	Eraser(mypendsearch, num);
 	int myapplytime = SqeCls_CacluApplyTime(num, mycurrtime, myremain, myrelease);
 	SqeCls_UpdateMessage(myremain, myrelease, mycurrtime, myapplytime, num);
 	SqeCls_Allocation(num, mycurrtime, myrelease, myremain, mysafe, mypendsearch);
