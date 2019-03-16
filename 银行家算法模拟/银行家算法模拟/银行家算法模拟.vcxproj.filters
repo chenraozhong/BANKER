@@ -27,9 +27,6 @@
     <ClInclude Include="Init_Message.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Safe_Sequence_Produce.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Safe_Sequence_Sort.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -42,9 +39,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Init_Message.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Safe_Sequence_Produce.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Safe_Sequence_Sort.cpp">
