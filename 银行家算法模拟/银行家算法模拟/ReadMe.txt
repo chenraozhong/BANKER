@@ -28,3 +28,82 @@ StdAfx.h, StdAfx.cpp
 应用程序向导使用“TODO:”注释来指示应添加或自定义的源代码部分。
 
 /////////////////////////////////////////////////////////////////////////////
+
+随机数据模块：
+	主要思想：通过rand()函数来进行随机数据的生成。
+
+	添加的头文件：
+	InitCls.h:
+		这个头文件用于进行随机模块的总体概括,创建了一个InitCls类，类中包含了四个公有成员函数，五个私有变量。
+		成员函数的含义分别为：
+		
+			void InitRandomOfAvailable();//生成系统各资源量
+			void InitRandomOfMax();//生成客户最大资源数
+			void InitRandomOfAllocation();//生成客户已占资源数
+			void InitRandomOfTime();//占有时间数
+
+		私有变量的含义为：
+			
+			m_client;//客户数
+			m_resource;//资源数
+			m_Available;//存储随机生成的系统资源量
+			m_Max;//存储客户最大资源量
+			m_AllocationAndTime;//存储客户已占资源量以及时间占有量
+
+添加的源文件：
+	1.InitCls.cpp
+		用于进行类中公有函数成员的实现，最大资源数为（ 50~100 ），时间数为 （ 1~10 ）
+		void InitRandomOfAvailable()生成系统各资源量，存储的文件名为：Available.txt        
+		格式为
+			23 34 34 44
+		void InitRandomOfMax();//生成客户最大资源数，存储的文件名为：Max.txt      
+		格式为(行数为客户数，列数表示为每个客户对应的资源数)
+			23 34 34 44
+			23 34 34 44
+			23 34 34 44
+			23 34 34 44
+		void InitRandomOfAllocation();//生成客户已占资源数以及
+		格式为：
+			23 4 33 4 
+			32 2 45 4
+			23 4 33 4 
+			32 2 45 4
+		void InitRandomOfTime();//占有时间数，存储的文件名为：Time.txt
+		格式为：
+			23 4 33 4 
+			32 2 45 4
+			23 4 33 4 
+			32 2 45 4
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+排序模块：
+	思想：通过 vector<pair<string,int> > 来实现安全序列和加权数的链接，再通过<algorithm>里的sort()函数进行加权数的排序。
+		输入：原始文本的内容
+		输出：排序好的数据输出到文本中
+
+	头文件：
+	Safe_Sequence_Sort.h
+		在其中定义了对加权数排序的类，类中包括三个公有成员变量和三个私有变量。
+		对公有成员函数的解释：		
+			void ReadOfSafeAndWeight();//读取安全序列和加权数
+			void SortOfWeight();//加权数的排序
+			void WriteOfSafeAndWeight();//将安全序列和排序后的加权数写入文档
+		对私有变量的解释：
+			vector<pair<string, int> > m_SafeAndWeight;//存储安全序列和加权数
+			ifstream m_ReadSafeSequencetxt;//原始安全序列和加权数的读取
+			ofstream m_WriteSafeSequence;//排序后的安全序列和加权数
+	类的实现文件：
+	Safe_Sequence_Sort.cpp
+		在其中进行头文件 Safe_Sequence_Sort.h 内的类成员函数的实现，也定义了一个不属于类的成员函数。
+		不属于类的函数：
+			bool cmp(const pair<string, int>& a1, const pair<string, int>& a2);//对其中的数据按照降序排序
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+			
