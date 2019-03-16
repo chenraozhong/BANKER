@@ -1,4 +1,5 @@
 #pragma once
+
 #include "stdafx.h"
 #ifndef _INITCLS_H
 #define _INTTCLS_H
@@ -10,14 +11,15 @@ public:
 	InitCls(int m, int n);
 	void InitRandomOfAvailable();
 	void InitRandomOfMax();
-	void InitRandomOfAllocationAndTime();
+	void InitRandomOfAllocation();
+	void InitRandomOfTime();
 private:
 	int m_client;
 	int m_resource;
 	ofstream m_Available;
 	ofstream m_Max;
-	ofstream m_AllocationAndTime;
+	ofstream m_Allocation;
+	ofstream m_Time;
 };
 
 #endif
-
