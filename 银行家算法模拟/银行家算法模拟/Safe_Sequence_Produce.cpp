@@ -4,17 +4,24 @@
 #include<string>
 #include<sstream>
 #include<map>
+#include"gobal.h"
 using namespace std;
 #ifndef _SAFE_SEQUENCE_PRODUCE_CPP
 #define _SAFE_SEQUENCE_PRODUCE_CPP
 
-void Eraser(vector<int> sequence, int value) {
+int _SystemTime = 0;
+int _ThreholdValue = 30;
+
+void Eraser(vector<int> &sequence, int value) {
 	vector<int>::iterator myitem = sequence.begin();
 	for (; myitem != sequence.end(); myitem++) {
 		if (*myitem == value) break;
 	}
-	if (myitem != sequence.end()) cerr << "队列中无此数值，出错";
-	sequence.erase(myitem);
+	if (myitem == sequence.end()) {
+		cerr << "队列中无此数值，出错";
+		exit(1);
+	}
+	else sequence.erase(myitem);
 }
 
 int StrToNum(string str) {
@@ -27,7 +34,7 @@ int StrToNum(string str) {
 /*
 将字符串str转换成数字并存储到value中
 */
-void StrToVector(string str, vector<int> value) {
+void StrToVector(string str, vector<int> &value) {
 	char myletter = ' ';
 	int myvalue = 0;
 	string mydigal = "";
@@ -52,7 +59,7 @@ void StrToVector(string str, vector<int> value) {
 /*
 将从file文档中读取的信息存储到value中
 */
-void FileToVector(string file, vector<vector<int> > value) {
+void FileToVector(string file, vector<vector<int> > &value) {
 	ifstream in;
 	in.open(file);
 	if (!in) {
@@ -64,6 +71,7 @@ void FileToVector(string file, vector<vector<int> > value) {
 		vector<int> myvalue;
 		StrToVector(mystr, myvalue);
 		value.push_back(myvalue);
+		getline(in, mystr);
 	}
 	in.close();
 }
@@ -112,9 +120,9 @@ void SqeCls::SqeCls_MAXRequestinit() {
 }
 
 void SqeCls::SqeCls_Requestinit() {
-	for (int i = 0; i < m_Source.size(); i++) {
+	for (int i = 0; i < m_Allocation.size(); i++) {
 		vector<int> value;
-		for (int j = 0; j < m_MAXRequest.size(); j++) {
+		for (int j = 0; j < m_Source.size(); j++) {
 			value.push_back(m_MAXRequest[i][j] - m_Allocation[i][j]);
 		}
 		m_Request.push_back(value);
@@ -204,6 +212,7 @@ void SqeCls::SqeCls_UpdateMessage(vector<int> remain, vector<map<int, int> > rel
 bool SqeCls::SqeCls_Client_Is_Safe(int num, vector<map<int, int> > release, vector<int> remain) {
 	vector<int> myremain = remain;
 	for (int i = 0; i < remain.size(); i++) {
+		if (release[i].empty()) continue;
 		map<int, int>::iterator myitem = release[i].begin();
 		remain[i] += myitem->second;
 	}//end of for
@@ -272,14 +281,18 @@ void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > rel
 	if (_SystemTime <= _ThreholdValue) {
 		int myclientnum = 0;
 		safe.push_back(num);
-		Eraser(pendsearch, num);
+		//Eraser(pendsearch, num);
 		while (myclientnum != -1) {
-			int myclientnum = SqeCls_FindClient(safe, pendsearch, release, remain);
+			myclientnum = SqeCls_FindClient(safe, pendsearch, release, remain);
 			if (myclientnum == -1) {//表示已找不到可插入序列的用户
 				if (safe.size() == m_clientnum)//表示该序列是安全序列
 					SqeCls_CacluScore(safe,currtime,release,remain);//end of if
+				else {
+					cout << "该学列不是安全序列" << endl;
+				}
 			}
 			else {
+				Eraser(pendsearch, myclientnum);
 				int myapplytime = SqeCls_CacluApplyTime(num, currtime, remain, release);
 				int mycurrtime = currtime;
 				vector<int> myremain = remain;
@@ -287,21 +300,27 @@ void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > rel
 				vector<int> mysafe = safe;
 				vector<int> mypendsearch = pendsearch;
 				SqeCls_UpdateMessage(myremain, myrelease, mycurrtime, myapplytime, num);
-				SqeCls_Allocation(num, currtime, myrelease, myremain, mysafe, mypendsearch);
+				SqeCls_Allocation(myclientnum, currtime, myrelease, myremain, mysafe, mypendsearch);
 			}
 		}//end of while
 	}//end of if 
 }
 
-void SqeCls::SqeCls_Run(int num) {
+void SqeCls::SqeCls_Run() {
+	SqeCls_Messageinit();
 	int mycurrtime = 0;
 	vector<int> myremain = m_Remain;
 	vector<map<int, int> > myrelease=m_Release;
 	vector<int> mysafe;
 	vector<int> mypendsearch;
 	for (int i = 0; i < m_clientnum; i++) mypendsearch.push_back(i);
-	mysafe.push_back(num);
-	Eraser(mypendsearch, num);
+	int num=SqeCls_FindClient(mysafe, mypendsearch, m_Release, m_Remain);
+	if (num == -1) {
+		cerr << "随机生成的信息无安全序列，请重新生成";
+		exit(1);
+	}
+	//mysafe.push_back(num);
+	//Eraser(mypendsearch, num);
 	int myapplytime = SqeCls_CacluApplyTime(num, mycurrtime, myremain, myrelease);
 	SqeCls_UpdateMessage(myremain, myrelease, mycurrtime, myapplytime, num);
 	SqeCls_Allocation(num, mycurrtime, myrelease, myremain, mysafe, mypendsearch);

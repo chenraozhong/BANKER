@@ -9,6 +9,7 @@ using namespace std;
 class InitCls {
 public:
 	InitCls(int m, int n);
+	void Init();
 	void InitRandomOfAvailable();
 	void InitRandomOfMax();
 	void InitRandomOfAllocation();
@@ -21,5 +22,6 @@ private:
 	ofstream m_Allocation;
 	ofstream m_Time;
 };
+
 
 #endif

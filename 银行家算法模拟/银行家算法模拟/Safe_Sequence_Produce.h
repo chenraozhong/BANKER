@@ -10,9 +10,6 @@ using namespace std;
 #ifndef _SAFE_SEQUENCE_PRODUCE_H
 #define _SAFE_SEQUENCE_PRODECE_H
 
-int _SystemTime = 0;
-int _ThreholdValue = 500;
-
 class SqeCls {
 private:
 	ofstream m_SafeAndScore;
@@ -53,7 +50,7 @@ public:
 	void SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch);
 	void SqeCls_CacluScore(vector<int> safe,int currtime, vector<map<int, int> > release, vector<int> remain);
 	double SqeCls_Cacluate(int totalApplytime,int totalReleaseTime,double sourceration);
-	void SqeCls_Run(int num=1);
+	void SqeCls_Run();
 };
 
 #endif

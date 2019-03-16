@@ -2,8 +2,8 @@
 #pragma once
 
 #include "stdafx.h"
-#ifndef _INITCLS_H
-#define _INTTCLS_H
+#ifndef _SAFESORT_H
+#define _SAFESORT_H
 #include<fstream>
 #include<map>
 #include<string>

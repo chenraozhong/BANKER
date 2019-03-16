@@ -7,11 +7,22 @@
 #include<vector>
 #include<time.h>
 
+#ifndef _INITMESSAGE_CPP
+#define _INITMESSAGE_CPP
+
 
 InitCls::InitCls(int m, int n) {
 	m_client = m;
 	m_resource = n;
 }
+
+void InitCls::Init() {
+	InitRandomOfAvailable();
+	InitRandomOfMax();
+	InitRandomOfAllocation();
+	InitRandomOfTime();
+}
+
 void InitCls::InitRandomOfAvailable() {
 	int my_number;
 	srand((unsigned)time(NULL));
@@ -53,7 +64,7 @@ void InitCls::InitRandomOfMax() {
 	srand((unsigned)time(NULL));
 	for (int i = 0; i < m_client; i++) {
 		for (int j = 0; j < m_resource; j++) {
-			my_number1 = rand() % my_AvailableFinally[j];//生成的资源数可能为零
+			my_number1 = rand() % (my_AvailableFinally[j]/2);//生成的资源数可能为零
 			m_Max << my_number1;
 			if (j < m_resource - 1) {
 				m_Max << " ";
@@ -141,3 +152,5 @@ void InitCls::InitRandomOfTime() {
 	}//for (i = 0; i < m_client; i++) 
 	m_Time.close();
 }
+
+#endif // !_INITMESSAGE_CPP
