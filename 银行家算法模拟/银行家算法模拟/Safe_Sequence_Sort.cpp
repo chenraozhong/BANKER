@@ -10,7 +10,8 @@ void Sort_Sequence_SortCls::ReadOfSafeAndWeight() {
 	string my_txtline;
 	vector<string> my_SafeSequenceSave;//临时存储安全序列
 	vector<int> my_WeightNumSave;//存储加权数
-	m_ReadSafeSequencetxt.open("safe_weight.txt");
+
+	m_ReadSafeSequencetxt.open("Safe_Weight.txt");
 	if (!m_ReadSafeSequencetxt.is_open()) {
 		cerr << "the safe_aequence don't open! error 21 ! " << endl;
 	}
@@ -26,6 +27,7 @@ void Sort_Sequence_SortCls::ReadOfSafeAndWeight() {
 		i++;
 	}//while (getline(m_ReadSafeSequencetxt, my_txtline)) 
 	m_ReadSafeSequencetxt.close();
+
 	if (my_SafeSequenceSave.size() != my_WeightNumSave.size())//两个数组长度一定相等
 		cout << "input error!" << endl;
 	else {
@@ -42,7 +44,7 @@ void Sort_Sequence_SortCls::SortOfWeight() {
 }
 void Sort_Sequence_SortCls::WriteOfSafeAndWeight() {
 	int my_number;
-	m_WriteSafeSequence.open("sort_safe_weight.txt");
+	m_WriteSafeSequence.open("Sort_Safe_Weight.txt");
 	if (!m_WriteSafeSequence.is_open()) {
 		cerr << "the sort_safe_weight don't open! error 22 !" << endl;
 	}
