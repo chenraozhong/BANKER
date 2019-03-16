@@ -6,6 +6,7 @@
 #include<fstream>
 using namespace std;
 
+
 class InitCls {
 public:
 	InitCls(int m, int n);

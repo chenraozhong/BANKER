@@ -9,6 +9,7 @@
 #include<vector>
 using namespace std;
 
+
 class Sort_Sequence_SortCls {
 public:
 	void ReadOfSafeAndWeight();
