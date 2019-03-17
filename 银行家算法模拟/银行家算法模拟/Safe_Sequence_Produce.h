@@ -35,8 +35,8 @@ private:
 	void SqeCls_Allocationinit();
 	void SqeCls_MAXRequestinit();
 	void SqeCls_Releaseinit();
-	void SqeCls_UpdateRemain(vector<int> remain,vector<map<int,int> > release,int currtime);
-	void SqeCls_UpdateRelease(vector<map<int, int> > release, int num, int currtime);
+	void SqeCls_UpdateRemain(vector<int> &remain,vector<map<int,int> > &release,int currtime);
+	void SqeCls_UpdateRelease(vector<map<int, int> > &release, int num, int currtime);
 	int SqeCls_CacluTotalReleaseTime(int currtime, vector<map<int, int> > release);
 	double SqeCls_CacluSourceRation(vector<int> remain);
 public:
@@ -44,7 +44,7 @@ public:
 	~SqeCls();
 	void SqeCls_Messageinit();
 	int SqeCls_CacluApplyTime(int num,int currtime,vector<int> remain,vector<map<int,int> > release);
-	void SqeCls_UpdateMessage(vector<int> remain,vector<map<int,int> > release,int &currtime,int applytime,int num);
+	void SqeCls_UpdateMessage(vector<int> &remain,vector<map<int,int> > &release,int &currtime,int applytime,int num);
 	int SqeCls_FindClient(vector<int> safe, vector<int> pendsearch, vector<map<int, int> > release, vector<int> remain);
 	bool SqeCls_Client_Is_Safe(int num, vector<map<int, int> > release, vector<int> remain);
 	void SqeCls_Allocation(int num, int currtime, vector<map<int, int> > release, vector<int> remain, vector<int> safe, vector<int> pendsearch);

@@ -10,7 +10,7 @@ using namespace std;
 #define _SAFE_SEQUENCE_PRODUCE_CPP
 
 int _SystemTime = 0;
-int _ThreholdValue = 30;
+int _ThreholdValue = 500;
 
 void Eraser(vector<int> &sequence, int value) {
 	vector<int>::iterator myitem = sequence.begin();
@@ -163,7 +163,7 @@ void SqeCls::SqeCls_Messageinit() {
 /*
 更新系统剩余资源信息，并将currtime之前的资源该释放的资源全部释放掉
 */
-void SqeCls::SqeCls_UpdateRemain(vector<int> remain,vector<map<int,int> > release,int currtime) {
+void SqeCls::SqeCls_UpdateRemain(vector<int> &remain,vector<map<int,int> > &release,int currtime) {
 	for (int i = 0; i < remain.size(); i++) {
 		map<int, int>::iterator myitem = release[i].find(currtime);
 		if (myitem == release[i].end()) continue;//表示在currtime,资源i不释放
@@ -199,7 +199,7 @@ int SqeCls::SqeCls_CacluApplyTime(int num,int currtime,vector<int> Remain,vector
 /*
 更新资源在未来释放信息
 */
-void SqeCls::SqeCls_UpdateRelease(vector<map<int, int> > release, int num,int currtime) {
+void SqeCls::SqeCls_UpdateRelease(vector<map<int, int> > &release, int num,int currtime) {
 	int myrelease = 0;
 	for (int i = 0; i < m_Source.size(); i++) {
 		myrelease = currtime + m_Duration[num][i];
@@ -209,13 +209,13 @@ void SqeCls::SqeCls_UpdateRelease(vector<map<int, int> > release, int num,int cu
 	}
 }
 
-void SqeCls::SqeCls_UpdateMessage(vector<int> remain, vector<map<int, int> > release, int &currtime, int applytime, int num) {
+void SqeCls::SqeCls_UpdateMessage(vector<int> &remain, vector<map<int, int> > &release, int &currtime, int applytime, int num) {
 	_SystemTime += (applytime - currtime);//更新全局系统时间
-	while (currtime <= applytime) {
+	while (currtime < applytime) {
 		currtime ++;
 		SqeCls_UpdateRemain(remain, release, currtime);
-		SqeCls_UpdateRelease(release, num, currtime);
 	}
+	SqeCls_UpdateRelease(release, num, currtime);
 }
 
 /*
@@ -293,9 +293,10 @@ void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > rel
 	if (_SystemTime <= _ThreholdValue) {
 		int myclientnum = 0;
 		Push_Back(safe, num);
-		//Eraser(pendsearch, num);
+		Eraser(pendsearch, num);
+		vector<int> mySearch = pendsearch;
 		while (myclientnum != -1) {
-			myclientnum = SqeCls_FindClient(safe, pendsearch, release, remain);
+			myclientnum = SqeCls_FindClient(safe, mySearch, release, remain);
 			if (myclientnum == -1) {//表示已找不到可插入序列的用户
 				if (safe.size() == m_clientnum)//表示该序列是安全序列
 					SqeCls_CacluScore(safe,currtime,release,remain);//end of if
@@ -304,7 +305,7 @@ void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > rel
 				}
 			}
 			else {
-				Eraser(pendsearch, myclientnum);
+				Eraser(mySearch, myclientnum);
 				int myapplytime = SqeCls_CacluApplyTime(num, currtime, remain, release);
 				int mycurrtime = currtime;
 				vector<int> myremain = remain;
@@ -312,7 +313,7 @@ void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > rel
 				vector<int> mysafe = safe;
 				vector<int> mypendsearch = pendsearch;
 				SqeCls_UpdateMessage(myremain, myrelease, mycurrtime, myapplytime, num);
-				SqeCls_Allocation(myclientnum, currtime, myrelease, myremain, mysafe, mypendsearch);
+				SqeCls_Allocation(myclientnum, mycurrtime, myrelease, myremain, mysafe, mypendsearch);
 			}
 		}//end of while
 	}//end of if 
@@ -332,7 +333,7 @@ void SqeCls::SqeCls_Run() {
 		exit(1);
 	}
 	//mysafe.push_back(num);
-	Eraser(mypendsearch, num);
+	//Eraser(mypendsearch, num);
 	int myapplytime = SqeCls_CacluApplyTime(num, mycurrtime, myremain, myrelease);
 	SqeCls_UpdateMessage(myremain, myrelease, mycurrtime, myapplytime, num);
 	SqeCls_Allocation(num, mycurrtime, myrelease, myremain, mysafe, mypendsearch);
