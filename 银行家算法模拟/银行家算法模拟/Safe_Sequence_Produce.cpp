@@ -10,7 +10,7 @@ using namespace std;
 #define _SAFE_SEQUENCE_PRODUCE_CPP
 
 int _SystemTime = 0;
-int _ThreholdValue = 500;
+int _ThreholdValue = 5000;
 
 void Eraser(vector<int> &sequence, int value) {
 	vector<int>::iterator myitem = sequence.begin();
@@ -161,9 +161,10 @@ void SqeCls::SqeCls_Messageinit() {
 }
 
 /*
-更新系统剩余资源信息，并将currtime之前的资源该释放的资源全部释放掉
+更新系统剩余资源信息，并将currtime之前的资源该释放的资源全部释放掉;
+用于更新添加系统资源信息。后面的SqeCls_UpdateSubRemain用于分配资源之后，更新系统还剩的资源信息
 */
-void SqeCls::SqeCls_UpdateRemain(vector<int> &remain,vector<map<int,int> > &release,int currtime) {
+void SqeCls::SqeCls_UpdateAddRemain(vector<int> &remain,vector<map<int,int> > &release,int currtime) {
 	for (int i = 0; i < remain.size(); i++) {
 		map<int, int>::iterator myitem = release[i].find(currtime);
 		if (myitem == release[i].end()) continue;//表示在currtime,资源i不释放
@@ -171,6 +172,12 @@ void SqeCls::SqeCls_UpdateRemain(vector<int> &remain,vector<map<int,int> > &rele
 			remain[i] += release[i][currtime];
 			release[i].erase(currtime);
 		}
+	}
+}
+
+void SqeCls::SqeCls_UpdateSubRemain(vector<int> &remain, int num) {
+	for (int i = 0; i < remain.size(); i++) {
+		remain[i] -= m_Request[num][i];
 	}
 }
 
@@ -191,7 +198,7 @@ int SqeCls::SqeCls_CacluApplyTime(int num,int currtime,vector<int> Remain,vector
 			}
 		}//end of for
 		currtime++;
-		SqeCls_UpdateRemain(myremain,release, currtime);//更新系统剩余资源
+		SqeCls_UpdateAddRemain(myremain,release, currtime);//更新系统剩余资源
 	}//end of while
 	return currtime;
 }
@@ -213,8 +220,9 @@ void SqeCls::SqeCls_UpdateMessage(vector<int> &remain, vector<map<int, int> > &r
 	_SystemTime += (applytime - currtime);//更新全局系统时间
 	while (currtime < applytime) {
 		currtime ++;
-		SqeCls_UpdateRemain(remain, release, currtime);
+		SqeCls_UpdateAddRemain(remain, release, currtime);
 	}
+	SqeCls_UpdateSubRemain(remain, num);
 	SqeCls_UpdateRelease(release, num, currtime);
 }
 
@@ -270,7 +278,7 @@ double SqeCls::SqeCls_CacluSourceRation(vector<int> remain) {
 对全部资源申请时间、全部资源释放时间、资源利用率进行加权计算，得到得分
 */
 double SqeCls::SqeCls_Cacluate(int totalApplytime, int totalReleaseTime, double sourceration) {
-	double myscore = double(_SystemTime)/double(totalApplytime)*0.6+double(_SystemTime)/double(totalReleaseTime)*0.4+sourceration;//权值还有待商榷
+	double myscore = (double(_ThreholdValue)/double(totalApplytime))*0.6+(double(_ThreholdValue)/double(totalReleaseTime))*0.4+sourceration;//权值还有待商榷
 	return myscore;
 }
 

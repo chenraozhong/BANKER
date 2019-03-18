@@ -11,7 +11,7 @@ void Sort_Sequence_SortCls::ReadOfSafeAndWeight() {
 	vector<string> my_SafeSequenceSave;//临时存储安全序列
 	vector<int> my_WeightNumSave;//存储加权数
 
-	m_ReadSafeSequencetxt.open("Safe_Weight.txt");
+	m_ReadSafeSequencetxt.open("SafeAndScore.txt");
 	if (!m_ReadSafeSequencetxt.is_open()) {
 		cerr << "the safe_aequence don't open! error 21 ! " << endl;
 	}
@@ -44,7 +44,7 @@ void Sort_Sequence_SortCls::SortOfWeight() {
 }
 void Sort_Sequence_SortCls::WriteOfSafeAndWeight() {
 	int my_number;
-	m_WriteSafeSequence.open("Sort_Safe_Weight.txt");
+	m_WriteSafeSequence.open("Result.txt");
 	if (!m_WriteSafeSequence.is_open()) {
 		cerr << "the sort_safe_weight don't open! error 22 !" << endl;
 	}
@@ -54,4 +54,10 @@ void Sort_Sequence_SortCls::WriteOfSafeAndWeight() {
 			m_WriteSafeSequence << endl;
 	}//for (int i = 0; i < m_SafeAndWeight.size(); i++)
 	m_WriteSafeSequence.close();
+}
+
+void Sort_Sequence_SortCls::Run() {
+	ReadOfSafeAndWeight();
+	SortOfWeight();
+	WriteOfSafeAndWeight();
 }

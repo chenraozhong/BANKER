@@ -15,6 +15,7 @@ public:
 	void ReadOfSafeAndWeight();
 	void SortOfWeight();
 	void WriteOfSafeAndWeight();
+	void Run();
 private:
 	vector<pair<string, int> > m_SafeAndWeight;
 	ifstream m_ReadSafeSequencetxt;

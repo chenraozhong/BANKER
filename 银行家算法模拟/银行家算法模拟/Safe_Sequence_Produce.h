@@ -35,7 +35,8 @@ private:
 	void SqeCls_Allocationinit();
 	void SqeCls_MAXRequestinit();
 	void SqeCls_Releaseinit();
-	void SqeCls_UpdateRemain(vector<int> &remain,vector<map<int,int> > &release,int currtime);
+	void SqeCls_UpdateAddRemain(vector<int> &remain,vector<map<int,int> > &release,int currtime);
+	void SqeCls_UpdateSubRemain(vector<int> &remain, int num);
 	void SqeCls_UpdateRelease(vector<map<int, int> > &release, int num, int currtime);
 	int SqeCls_CacluTotalReleaseTime(int currtime, vector<map<int, int> > release);
 	double SqeCls_CacluSourceRation(vector<int> remain);
