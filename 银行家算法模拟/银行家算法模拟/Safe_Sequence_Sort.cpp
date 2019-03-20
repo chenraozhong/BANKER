@@ -53,3 +53,9 @@ void Sort_Sequence_SortCls::WriteOfSafeAndWeight() {
 	}//for (int i = 0; i < m_SafeAndWeight.size(); i++)
 	m_WriteSafeSequence.close();
 }
+
+void Sort_Sequence_SortCls :: Run() {
+	ReadOfSafeAndWeight();
+	SortOfWeight();
+	WriteOfSafeAndWeight();
+}

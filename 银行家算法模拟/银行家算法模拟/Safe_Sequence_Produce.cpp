@@ -290,10 +290,14 @@ void SqeCls::SqeCls_CacluScore(vector<int> safe,int currtime,vector<map<int,int>
 	int mytotalReleaseTime = SqeCls_CacluTotalReleaseTime(currtime, release);
 	double mySourceRation = SqeCls_CacluSourceRation(remain);
 	double myScore = SqeCls_Cacluate(mytotalApplyTime, mytotalReleaseTime, mySourceRation);
-	for (int i = 0; i < safe.size(); i++)
+	for (int i = 0; i < safe.size(); i++) {
 		m_SafeAndScore << safe[i] << " ";
+		cout << safe[i] << " ";
+	}
 	m_SafeAndScore << endl;
+	cout << endl;
 	m_SafeAndScore << myScore;
+	cout << myScore << endl;
 	m_SafeAndScore << endl;
 }
 
@@ -308,9 +312,9 @@ void SqeCls::SqeCls_Allocation(int num, int currtime, vector<map<int, int> > rel
 			if (myclientnum == -1) {//表示已找不到可插入序列的用户
 				if (safe.size() == m_clientnum)//表示该序列是安全序列
 					SqeCls_CacluScore(safe,currtime,release,remain);//end of if
-				else {
-					cout << "该序列不是安全序列" << endl;
-				}
+				//else {
+					//cout << "该序列不是安全序列" << endl;
+				//}
 			}
 			else {
 				Eraser(mySearch, myclientnum);
