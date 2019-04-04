@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gobal.h" />
     <ClInclude Include="Init_Message.h" />
     <ClInclude Include="Safe_Sequence_Produce.h" />
     <ClInclude Include="Safe_Sequence_Sort.h" />

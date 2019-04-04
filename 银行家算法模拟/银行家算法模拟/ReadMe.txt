@@ -28,3 +28,54 @@ StdAfx.h, StdAfx.cpp
 应用程序向导使用“TODO:”注释来指示应添加或自定义的源代码部分。
 
 /////////////////////////////////////////////////////////////////////////////
+
+
+
+添加的头文件：
+	InitCls.h:
+		这个头文件用于进行随机模块的总体概括,创建了一个InitCls类，类中包含了四个公有成员函数，五个私有变量。
+		成员函数的含义分别为：
+		
+			void InitRandomOfAvailable();//生成系统各资源量
+			void InitRandomOfMax();//生成客户最大资源数
+			void InitRandomOfAllocationAndTime();//生成客户已占资源数以及占有时间数
+
+		私有变量的含义为：
+			
+			m_client;//客户数
+			m_resource;//资源数
+			m_Available;//存储随机生成的系统资源量
+			m_Max;//存储客户最大资源量
+			m_AllocationAndTime;//存储客户已占资源量以及时间占有量
+
+添加的源文件：
+	1.InitCls.cpp
+		用于进行类中公有函数成员的实现，最大资源数为（ 50~100 ），时间数为 （ 1~10 ）
+		void InitRandomOfAvailable()生成系统各资源量，存储的文件名为：Available.txt        
+		格式为
+			23 34 34 44
+		void InitRandomOfMax();//生成客户最大资源数，存储的文件名为：Max.txt      
+		格式为(行数为客户数，列数表示为每个客户对应的资源数)
+			23 34 34 44
+			23 34 34 44
+			23 34 34 44
+			23 34 34 44
+		void InitRandomOfAllocationAndTime();//生成客户已占资源数以及占有时间数，存储的文件名为：AllocationAndTime.txt
+		格式为：
+			23 4 33 4 32 2 45 4
+			23 4 33 4 32 2 45 4
+			23 4 33 4 32 2 45 4
+			23 4 33 4 32 2 45 4（其中第一个数表示已占资源数，第二个数表示占有时间数，依次循环）
+	2.main.cpp
+		作用为进行函数的实现，生成类似于上述格式的数存储于文件中。
+
+
+
+
+		陈饶中：
+		输出的文件名为:SafeAndScore.txt
+		文件中存储信息为:
+		1 3 2 4 
+		89.6(为double型)
+		1 2 3 4
+		90.9
